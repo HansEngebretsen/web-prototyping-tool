@@ -23,7 +23,8 @@ To ensure a consistent end-user experience, all future development should adhere
 ### 2.1. Coding Style
 
 - **Follow the existing style guides:** The project has a comprehensive set of style guides for CSS, Angular, TypeScript, and Git commits. These can be found in the `documentation` directory.
-- **Maintain a consistent coding style:** Use the existing Prettier and ESLint configurations to maintain a consistent coding style across the codebase.
+- **Maintain a consistent coding style:** Use the existing Prettier and ESLint configurations to maintain a consistent coding style across the codebase. For example, all TypeScript code should be formatted with Prettier and should adhere to the rules defined in the `.eslintrc.json` file.
+- **Use meaningful variable names:** All variable names should be descriptive and should accurately reflect the data they represent. For example, instead of `const d = new Date();`, use `const currentDate = new Date();`.
 
 ### 2.2. User Experience
 
@@ -36,7 +37,7 @@ To ensure the quality and stability of the application, all future development m
 
 ### 3.1. End-to-End Testing
 
-- **Write end-to-end tests for all new features:** All new features must be accompanied by end-to-end tests that verify the feature works as expected.
+- **Write end-to-end tests for all new features:** All new features must be accompanied by end-to-end tests that verify the feature works as expected. The new tests should be written using Playwright, and should be located in the `e2e` directory.
 - **Ensure all tests pass before submitting a change:** All existing and new tests must pass before a change can be submitted.
 
 ### 3.2. Screenshots

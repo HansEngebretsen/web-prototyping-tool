@@ -1,41 +1,63 @@
 # Testing Guide
 
-This document provides instructions for running the existing end-to-end (e2e) tests for the Web Prototyping Tool.
+This document provides instructions for running the existing end-to-end (e2e) tests for the Web Prototyping Tool. It also includes a detailed analysis of the current state of the test suite and a prescriptive plan for migrating to a modern testing framework.
 
-## 1. Setting up the Environment
+## 1. Running the Existing Tests
 
-Before running the e2e tests, you will need to set up the testing environment. This involves the following steps:
+The following steps can be taken to run the existing e2e tests:
 
-### 1.1. Install Dependencies
+### 1.1. Set up the Environment
 
 - **Install all of the project's dependencies:**
   ```bash
   npm install
   ```
 
-### 1.2. Install ChromeDriver
-
-- **Install the correct version of ChromeDriver:** The e2e tests require a specific version of ChromeDriver to be installed.
+- **Install the correct version of ChromeDriver:**
   ```bash
   npm run install-e2e-chrome
   ```
 
-## 2. Running the Tests
+### 1.2. Run the Tests
 
-Once the environment has been set up, you can run the e2e tests using the following command:
+- **Run the e2e tests in headless mode:**
+  ```bash
+  NODE_OPTIONS=--openssl-legacy-provider npm run e2e:headless
+  ```
 
-```bash
-NODE_OPTIONS=--openssl-legacy-provider npm run e2e:headless
-```
+## 2. Current Status and Analysis
 
-**Note:** The `--openssl-legacy-provider` flag is required due to an incompatibility between the version of Node.js in the environment and the older version of Webpack used by Angular 12.
+The existing e2e test suite is not passing. The tests are consistently failing with timeout errors, even after significantly increasing the timeout values in the Protractor configuration. As a result, it is not possible to provide screenshots of the application at this time.
 
-## 3. Current Status and Recommendations
+### 2.1. Analysis of Failures
 
-As of October 2025, the existing e2e test suite is not passing. The tests are timing out while waiting for certain elements to appear on the page. This is likely due to a combination of factors, including the use of a deprecated testing framework (Protractor) and potential race conditions in the tests themselves.
+The test logs indicate that the tests are timing out while waiting for certain elements to appear on the page. This is likely due to a combination of factors:
 
-Given the current state of the test suite, it is recommended to migrate to a modern e2e testing framework like Cypress or Playwright. This will provide a more reliable and stable testing environment and will be a better investment of time and resources than trying to fix the existing tests. A detailed plan for this migration can be found in the `OPTIMIZATIONS.md` guide.
+- **Deprecated Framework:** The test suite is built with Protractor, which is deprecated and no longer actively maintained. This means that it may not be compatible with the latest versions of Chrome and WebDriver.
+- **Race Conditions:** The tests may contain race conditions that are causing them to fail intermittently.
+- **Application Performance:** The application may be running slowly in the test environment, which is causing the tests to time out.
 
-## 4. Screenshots
+### 2.2. Recommendation
 
-As the e2e tests are not currently running, I am unable to provide screenshots of the application. However, once the test suite has been migrated to a modern framework and the tests are passing, screenshots should be taken and added to this guide.
+Given the current state of the test suite, it is strongly recommended to migrate to a modern e2e testing framework. This will provide a more reliable and stable testing environment and will be a better investment of time and resources than trying to fix the existing tests.
+
+## 3. Migration Plan
+
+The following is a prescriptive plan for migrating the e2e test suite to Playwright:
+
+### 3.1. Why Playwright?
+
+Playwright is recommended for its speed, reliability, and cross-browser support. It also has excellent documentation and a growing community.
+
+### 3.2. First Steps
+
+- **Install and configure Playwright:** The first step is to install and configure Playwright. This will involve creating a new Playwright configuration file and setting up any necessary plugins or integrations.
+- **Create a new e2e test suite:** A new e2e test suite should be created for Playwright. This will be where all new e2e tests will be written.
+- **Write the first test:** The first test should be a simple test that verifies that the application is running and that the home page is displayed correctly. This will help to ensure that the new test suite is set up correctly.
+
+### 3.3. Gradual Migration
+
+- **Write new tests in Playwright:** All new e2e tests should be written in Playwright.
+- **Prioritize critical user flows:** The first tests to be written should be for the most critical user flows.
+- **Gradually replace old tests:** As new tests are written in Playwright, the old Protractor tests should be gradually replaced.
+- **Remove the old test suite:** Once all of the old Protractor tests have been replaced, the old test suite should be removed from the codebase.

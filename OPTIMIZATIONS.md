@@ -1,41 +1,41 @@
 # Optimizations Guide
 
-This document outlines a plan to optimize and modernize the Web Prototyping Tool. The focus is on front-end technologies and best practices, without significantly altering the application's core functionality.
+This document outlines a detailed and prioritized plan to optimize and modernize the Web Prototyping Tool. The focus is on front-end technologies and best practices, without significantly altering the application's core functionality.
 
-## 1. Dependency Upgrades
+## 1. High-Priority: Foundational Upgrades
 
-The application is currently using Angular 12. Upgrading to the latest stable version of Angular will provide significant performance improvements, new features, and better security.
+These upgrades are critical for security, performance, and future development.
 
 ### 1.1. Angular Upgrade
 
-- **Upgrade to the latest Angular version:** Follow the official Angular upgrade guide to update the application and its dependencies. This will likely involve a multi-step process, upgrading one major version at a time.
-- **Update Angular Material:** Ensure that the Angular Material library is also upgraded to a compatible version.
+- **Upgrade to the latest Angular version:** The application is currently on Angular 12. Upgrading to the latest stable version of Angular is the most important step. This will provide significant performance improvements, new features (like Signals), and better security. The upgrade should be done incrementally, following the official Angular upgrade guide.
+- **Update Angular Material and CDK:** Ensure that the Angular Material and CDK libraries are also upgraded to compatible versions.
 - **Update NgRx:** Upgrade NgRx to the latest version to take advantage of new features and performance improvements.
 
-### 1.2. Other Dependencies
+### 1.2. E2E Test Framework Migration
 
-- **Review and update all other dependencies:** Use a tool like `npm-check-updates` to identify and update outdated dependencies.
-- **Remove unused dependencies:** Analyze the `package.json` file and the codebase to identify and remove any dependencies that are no longer being used.
+- **Migrate from Protractor to Playwright:** The project is currently using Protractor, which is deprecated. Migrating to a modern e2e testing framework like Playwright is essential for reliable testing. Playwright is recommended for its speed, reliability, and cross-browser support.
 
-## 2. CSS Modernization
+## 2. Medium-Priority: Code Modernization
 
-The current CSS architecture uses a custom Sass-based solution for CSS variables. While this works, it can be simplified and modernized by using native CSS custom properties.
+These changes will improve the developer experience and make the codebase more maintainable.
 
-### 2.1. Adopt Native CSS Custom Properties
+### 2.1. Adopt Modern Angular Features and Patterns
 
-- **Refactor Sass variables to CSS custom properties:** Convert the existing Sass variables in the `light` and `dark` themes to native CSS custom properties. This will allow for dynamic theme switching without requiring a separate build for each theme.
-- **Remove the `sass-utils/cssvars` dependency:** Once all Sass variables have been converted to CSS custom properties, the `sass-utils/cssvars` dependency can be removed.
+- **Embrace Standalone Components:** The latest versions of Angular have introduced standalone components, which can simplify the application's architecture by reducing the need for NgModules. A gradual migration to standalone components is recommended.
+- **Use the `inject` function:** The `inject` function is a new way to inject dependencies into components and services. It's more flexible than constructor injection and can help to reduce boilerplate code.
+- **Introduce Angular Signals:** Signals are a new reactive primitive in Angular that can help to simplify state management and improve performance. They are a good alternative to NgRx for local component state.
 
-### 2.2. CSS Architecture
+### 2.2. CSS Modernization
 
-- **Promote the use of modern CSS features:** Encourage the use of modern CSS features like Flexbox and Grid for layout, and clamp() for responsive typography.
-- **Adopt a consistent naming convention:** Enforce a consistent naming convention for CSS classes, such as BEM (Block, Element, Modifier), to improve code readability and maintainability.
+- **Adopt Native CSS Custom Properties:** The current CSS architecture uses a custom Sass-based solution for CSS variables. Migrating to native CSS custom properties will allow for dynamic theme switching and will remove the need for the `sass-utils/cssvars` dependency.
+- **Promote Modern CSS Features:** Encourage the use of modern CSS features like Flexbox and Grid for layout, and `clamp()` for responsive typography.
 
-## 3. Code Bloat Reduction
+## 3. Low-Priority: Code Cleanup and Optimization
 
-Over time, applications can accumulate unused code, which can negatively impact performance.
+These changes will provide incremental performance improvements and will make the codebase cleaner and more efficient.
 
-### 3.1. Tree-Shaking
+### 3.1. Code Bloat Reduction
 
 - **Ensure tree-shaking is properly configured:** Verify that the Angular build process is properly configured to tree-shake unused code from the final bundle.
 - **Identify and remove dead code:** Use a tool like `ts-prune` to identify and remove any unused code from the codebase.
@@ -45,16 +45,7 @@ Over time, applications can accumulate unused code, which can negatively impact 
 - **Promote the use of OnPush change detection:** Encourage the use of the `OnPush` change detection strategy for components to improve runtime performance.
 - **Lazy load feature modules:** Identify any feature modules that can be lazy-loaded to reduce the initial bundle size.
 
-## 4. Build Process Improvements
-
-The `package.json` file contains a large number of complex build scripts. Simplifying and optimizing these scripts can improve the developer experience and reduce build times.
-
-### 4.1. Script Simplification
-
-- **Consolidate and simplify build scripts:** Review the existing build scripts and identify any opportunities to consolidate or simplify them.
-- **Document the build process:** Create a document that clearly explains the purpose of each build script and how to use them.
-
-### 4.2. Build Performance
+## 4. Build and CI/CD Optimization
 
 - **Enable build caching:** Configure the Angular CLI to use build caching to improve build times.
-- **Upgrade to a modern e2e testing framework:** The project is currently using Protractor, which is deprecated. Migrating to a modern e2e testing framework like Cypress or Playwright will provide a better testing experience and more reliable tests.
+- **Optimize CI/CD pipeline:** Review the existing CI/CD pipeline and identify any opportunities to optimize it. This could include running tests in parallel or using a more efficient build process.
